@@ -29,12 +29,12 @@ public class Program
             builder.AddBasicHealthChecks();
             builder.Services.AddSwaggerGen();
 
+
             builder.Services.AddDbContext<DefaultContext>(options =>
-                options.UseNpgsql(
-                    builder.Configuration.GetConnectionString("DefaultConnection"),
-                    b => b.MigrationsAssembly("Ambev.DeveloperEvaluation.ORM")
-                )
-            );
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+                b => b.MigrationsAssembly("Ambev.DeveloperEvaluation.WebApi")
+            ));
+
 
             builder.Services.AddJwtAuthentication(builder.Configuration);
 
