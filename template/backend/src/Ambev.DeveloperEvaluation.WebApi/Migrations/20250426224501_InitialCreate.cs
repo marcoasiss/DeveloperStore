@@ -31,7 +31,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Product",
+                name: "Products",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -46,7 +46,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Product", x => x.Id);
+                    table.PrimaryKey("PK_Products", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -95,33 +95,28 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                 name: "SaleItem",
                 columns: table => new
                 {
-                    SalesId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    SalesId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SaleItem", x => new { x.SalesId, x.ProductId });
-                    table.ForeignKey(
-                        name: "FK_SaleItem_Product_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Product",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_SaleItem", x => x.Id);
                     table.ForeignKey(
                         name: "FK_SaleItem_Sales_SalesId",
                         column: x => x.SalesId,
                         principalTable: "Sales",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_SaleItem_ProductId",
+                name: "IX_SaleItem_SalesId",
                 table: "SaleItem",
-                column: "ProductId");
+                column: "SalesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Sales_CustomerId",
@@ -133,13 +128,13 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Products");
+
+            migrationBuilder.DropTable(
                 name: "SaleItem");
 
             migrationBuilder.DropTable(
                 name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "Product");
 
             migrationBuilder.DropTable(
                 name: "Sales");

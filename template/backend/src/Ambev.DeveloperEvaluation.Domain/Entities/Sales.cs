@@ -21,19 +21,14 @@ public class Sales : BaseEntity
     public ICollection<SaleItem> Items { get; set; } = new List<SaleItem>();
 }
 
-public class SaleItem
+public class SaleItem : BaseEntity
 {
-    // Composite primary key (SalesId + ProductId)
-    public int SalesId { get; set; }  // Part of composite key
-    public int ProductId { get; set; } // Part of composite key AND foreign key
-
-    // No separate Id field
+    public int Id { get; set; }  
+    public int ProductId { get; set; }                                       
     public int Quantity { get; set; }
     public decimal UnitPrice { get; set; }
     public decimal Discount { get; set; }
 
-    // Navigation to Product only
-    public Product Product { get; set; }
 
     // Computed property
     [NotMapped]
